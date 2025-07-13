@@ -37,17 +37,26 @@ export default async function RootLayout({
   return (
     <html lang="pt-BR">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        style={{
-          backgroundImage: 'url("/fundo_black.webp")',
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundAttachment: "fixed",
-        }}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased relative`} // relative para posicionar o vídeo
+        style={{ minHeight: "99vh" }}
       >
-        <div className="w-full h-[99vh] bg-zinc/10">
-          <Navbar isLogged={isLoggedIn} />
-          {children}
+        {/* Vídeo de fundo */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="fixed top-0 left-0 w-full h-[99%] object-cover -z-10"
+        >
+          <source src="/fundo01.mp4" type="video/mp4" className="w-full h-full" />
+          Seu navegador não suporta vídeo.
+        </video>
+
+        <div className="w-full min-h-screen bg-black/30 relative">
+          <Navbar isLogged={isLoggedIn}/>
+          <div className="container mx-auto p-4 overflow-auto">
+            {children}
+          </div>
         </div>
       </body>
     </html>
