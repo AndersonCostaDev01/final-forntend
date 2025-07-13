@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Cookies from "js-cookie";
 
 interface Comentario {
@@ -31,7 +31,7 @@ export default function Feed() {
   const [loading, setLoading] = useState(false);
   const token = Cookies.get("token");
 
-  const fetchPosts = async () => {
+  const fetchPosts = useCallback(async () => {
     if (!nextUrl || loading) return;
 
     setLoading(true);
@@ -56,11 +56,11 @@ export default function Feed() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [nextUrl, loading, token]);
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [fetchPosts]);
 
   return (
     <div className="bg-white/20 backdrop-blur-md rounded-xl border border-white/30 shadow-lg p-6 text-white m-1">

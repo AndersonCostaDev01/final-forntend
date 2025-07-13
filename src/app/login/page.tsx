@@ -29,24 +29,19 @@ export default function Login() {
 
       // Salvar token no cookie (expira em 7 dias)
       Cookies.set("token", data.token, { expires: 7 });
-      Cookies.set("user", JSON.stringify({
+
+      // Salvar usuário no cookie (codificado)
+      const userData = JSON.stringify({
         user_id: data.user_id,
         username: data.username,
         email: data.email,
-      }), { expires: 7 });
+      });
+      Cookies.set("user", encodeURIComponent(userData), { expires: 7 });
 
-      // Opcional: salvar usuário também (se quiser)
-      Cookies.set("user", JSON.stringify({
-        user_id: data.user_id,
-        username: data.username,
-        email: data.email,
-      }), { expires: 7 });
-
-      // Redirecionar ou atualizar estado de login aqui
-      // Exemplo:
+      // Redirecionar para dashboard
       window.location.href = "/dashboard";
 
-    } catch (err) {
+    } catch {
       setError("Erro ao conectar com o servidor");
     }
   };
@@ -80,6 +75,3 @@ export default function Login() {
     </div>
   );
 }
-
-
-// https://costaanderson.pythonanywhere.com/

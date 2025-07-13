@@ -49,16 +49,19 @@ export default function Login() {
 
       // Salva o token e usuário no cookie
       Cookies.set("token", data.token, { expires: 7 });
-      Cookies.set("user", JSON.stringify({
-        user_id: data.user_id,
-        username: data.username,
-        email: data.email,
-      }), { expires: 7 });
+      Cookies.set(
+        "user",
+        JSON.stringify({
+          user_id: data.user_id,
+          username: data.username,
+          email: data.email,
+        }),
+        { expires: 7 }
+      );
 
       // Redireciona
       window.location.href = "/feed";
-
-    } catch (err) {
+    } catch {
       setError("Erro ao conectar com o servidor.");
     } finally {
       setLoading(false);
@@ -74,7 +77,7 @@ export default function Login() {
           placeholder="Usuário"
           className="border border-gray-300 rounded-md p-2 text-black"
           value={username}
-          onChange={e => setUsername(e.target.value)}
+          onChange={(e) => setUsername(e.target.value)}
           required
         />
         <input
@@ -82,7 +85,7 @@ export default function Login() {
           placeholder="Nome"
           className="border border-gray-300 rounded-md p-2 text-black"
           value={firstName}
-          onChange={e => setFirstName(e.target.value)}
+          onChange={(e) => setFirstName(e.target.value)}
           required
         />
         <input
@@ -90,7 +93,7 @@ export default function Login() {
           placeholder="Sobrenome"
           className="border border-gray-300 rounded-md p-2 text-black"
           value={lastName}
-          onChange={e => setLastName(e.target.value)}
+          onChange={(e) => setLastName(e.target.value)}
           required
         />
         <input
@@ -98,7 +101,7 @@ export default function Login() {
           placeholder="Email"
           className="border border-gray-300 rounded-md p-2 text-black"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
         <input
@@ -106,7 +109,7 @@ export default function Login() {
           placeholder="Senha"
           className="border border-gray-300 rounded-md p-2 text-black"
           value={senha}
-          onChange={e => setSenha(e.target.value)}
+          onChange={(e) => setSenha(e.target.value)}
           required
         />
         <input
@@ -114,7 +117,7 @@ export default function Login() {
           placeholder="Confirmar Senha"
           className="border border-gray-300 rounded-md p-2 text-black"
           value={confirmarSenha}
-          onChange={e => setConfirmarSenha(e.target.value)}
+          onChange={(e) => setConfirmarSenha(e.target.value)}
           required
         />
         <button
@@ -124,7 +127,9 @@ export default function Login() {
         >
           {loading ? "Enviando..." : "Cadastrar"}
         </button>
-        <Link href="/login" className="text-blue-500 mt-2">Já tem uma conta? Faça login</Link>
+        <Link href="/login" className="text-blue-500 mt-2">
+          Já tem uma conta? Faça login
+        </Link>
         {error && <p className="text-red-500 mt-2">{error}</p>}
       </form>
     </div>
