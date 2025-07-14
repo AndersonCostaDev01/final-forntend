@@ -54,7 +54,7 @@ export default function Navbar({ isLogged }: { isLogged: boolean }) {
   return (
     <div className="bg-white/20 backdrop-blur-md rounded-xl border border-white/30 shadow-lg p-6 text-white m-1 z-10">
       <div className="flex justify-between items-center">
-        <div>
+        <Link href="/">
           <Image
             src="/tutwiter.svg"
             alt="logo"
@@ -69,17 +69,20 @@ export default function Navbar({ isLogged }: { isLogged: boolean }) {
             height={50}
             className="md:hidden block"
           />
-        </div>
+        </Link>
 
         <div>
           <div className="md:block hidden">
             {isLogged ? (
-              <Link href={"/profile"}>
-                <Avatar className="ml-3">
-                  <AvatarImage src={fotoUrl || "/default-avatar.png"} />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link href={"/post"}>Novo post</Link>
+                <Link href={"/profile"}>
+                  <Avatar className="ml-3">
+                    <AvatarImage src={fotoUrl || "/default-avatar.png"} />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                </Link> 
+              </div>
             ) : (
               <p>Não logado</p>
             )}

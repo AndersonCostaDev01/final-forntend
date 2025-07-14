@@ -46,6 +46,11 @@ export default function Login() {
     }
   };
 
+  const token = Cookies.get("token");
+  if (token) {
+    window.location.href = "/feed";
+  }
+
   return (
     <div 
       className="bg-white/20 backdrop-blur-md rounded-xl border border-white/30 shadow-lg p-6 text-white m-1"
