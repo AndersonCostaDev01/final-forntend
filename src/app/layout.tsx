@@ -52,9 +52,9 @@ export default async function RootLayout({
           Seu navegador não suporta vídeo.
         </video>
 
-        <div className="w-full min-h-screen bg-black/30 relative">
+        <div className="w-full min-h-screen bg-black/40 relative">
           <Navbar isLogged={isLoggedIn}/>
-          <div className="container mx-auto p-4 overflow-auto">
+          <div className="container mx-auto p-4 overflow-auto text-white">
             {children}
           </div>
         </div>
