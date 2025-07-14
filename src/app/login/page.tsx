@@ -39,7 +39,7 @@ export default function Login() {
       Cookies.set("user", encodeURIComponent(userData), { expires: 7 });
 
       // Redirecionar para dashboard
-      window.location.href = "/dashboard";
+      window.location.href = "/feed";
 
     } catch {
       setError("Erro ao conectar com o servidor");
