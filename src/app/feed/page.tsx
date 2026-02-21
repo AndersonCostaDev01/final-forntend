@@ -77,7 +77,7 @@ export default function Feed() {
       const parsed = JSON.parse(decoded);
       const userId = parsed.user_id;
 
-      const res = await fetch("https://costaanderson.pythonanywhere.com/posts/comentarios/", {
+      const res = await fetch("https://eeriicthdev.pythonanywhere.com/posts/comentarios/", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',

@@ -60,7 +60,7 @@ export default function Post() {
       const parsed = JSON.parse(decoded)
       const userId = parsed.user_id
 
-      const res = await fetch('https://costaanderson.pythonanywhere.com/posts/posts/', {
+      const res = await fetch('https://eeriicthdev.pythonanywhere.com/posts/posts/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
