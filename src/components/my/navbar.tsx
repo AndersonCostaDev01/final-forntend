@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export default function Navbar({ isLogged }: { isLogged: boolean }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [fotoUrl, setFotoUrl] = useState<string | null>(null);
-  const apiUrl = "https://costaanderson.pythonanywhere.com";
+  const apiUrl = "https://eeriicthdev.pythonanywhere.com";
 
   // Função para buscar foto do usuário
   const fetchUserPhoto = useCallback(() => {
