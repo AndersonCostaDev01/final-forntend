@@ -13,7 +13,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const res = await fetch("https://costaanderson.pythonanywhere.com/auth/login/", {
+      const res = await fetch("https://eeriicthdev.pythonanywhere.com/auth/login/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password: senha }),

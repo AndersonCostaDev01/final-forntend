@@ -27,7 +27,7 @@ interface Post {
 
 export default function Feed() {
   const [posts, setPosts] = useState<Post[]>([]);
-  const [nextUrl, setNextUrl] = useState<string | null>('https://costaanderson.pythonanywhere.com/posts/posts/');
+  const [nextUrl, setNextUrl] = useState<string | null>('https://eeriicthdev.pythonanywhere.com/posts/posts/');
   const [loading, setLoading] = useState(false);
   const [comentarios, setComentarios] = useState<{ [postId: number]: string }>({});
   const token = Cookies.get("token");

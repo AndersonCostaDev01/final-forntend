@@ -26,7 +26,7 @@ export default function Login() {
     setError("");
 
     try {
-      const res = await fetch("https://costaanderson.pythonanywhere.com/auth/register/", {
+      const res = await fetch("https://eeriicthdev.pythonanywhere.com/auth/register/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

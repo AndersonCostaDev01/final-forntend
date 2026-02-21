@@ -22,7 +22,7 @@ export default function Post() {
   useEffect(() => {
     async function fetchCategorias() {
       try {
-        const res = await fetch('https://costaanderson.pythonanywhere.com/posts/categorias/', {
+        const res = await fetch('https://eeriicthdev.pythonanywhere.com/posts/categorias/', {
           method: 'GET',
           headers: {
             'Authorization': `Token ${token}`,
