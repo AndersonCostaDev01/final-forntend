@@ -3,6 +3,15 @@
 import { useState } from 'react'
 import Cookies from 'js-cookie'
 
+interface Post {
+  id: number
+  titulo: string
+  conteudo: string
+  autor_username: string
+  liked_by_me: boolean
+  total_likes: number
+}
+
 interface PostProps {
   post: Post
 }
