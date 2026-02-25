@@ -13,7 +13,7 @@ interface UserProfile {
 }
 
 export default function ProfilePage() {
-  const apiUrl = 'hhttps://eeriicthdev.pythonanywhere.com';
+  const apiUrl = 'https://eeriicthdev.pythonanywhere.com';
 
   const cookieRaw = Cookies.get('user');
   const token = Cookies.get('token');
