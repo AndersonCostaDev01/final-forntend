@@ -1,149 +1,72 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Cookies from 'js-cookie'
-import Link from 'next/link'
 
-interface Categoria {
-  id: number
-  nome: string
+interface PostProps {
+  post: Post
 }
 
-export default function Post() {
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
-  const [categoriaSelecionada, setCategoriaSelecionada] = useState<number | null>(null)
-  const [categorias, setCategorias] = useState<Categoria[]>([])
-  const [mensagem, setMensagem] = useState<string | null>(null)
-
+export default function PostCard({ post }: PostProps) {
   const token = Cookies.get('token')
-  const cookieraw = Cookies.get('user')
 
-  useEffect(() => {
-    async function fetchCategorias() {
-      try {
-        const res = await fetch('https://eeriicthdev.pythonanywhere.com/posts/categorias/', {
-          method: 'GET',
+  const [liked, setLiked] = useState(post.liked_by_me)
+  const [likesCount, setLikesCount] = useState(post.total_likes)
+  const [loading, setLoading] = useState(false)
+
+  async function handleLike() {
+    if (!token || loading) return
+
+    try {
+      setLoading(true)
+
+      const res = await fetch(
+        `https://eeriicthdev.pythonanywhere.com/posts/posts/${post.id}/like/`,
+        {
+          method: 'POST',
           headers: {
             'Authorization': `Token ${token}`,
           },
-        })
-
-        if (!res.ok) {
-          throw new Error('Erro ao buscar categorias')
         }
-
-        const data = await res.json()
-        setCategorias(data.results)
-      } catch (error) {
-        console.error('Erro ao carregar categorias:', error)
-      }
-    }
-
-    fetchCategorias()
-  }, [])
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-
-    if (!title || !content || !categoriaSelecionada) {
-      setMensagem('Preencha todos os campos.')
-      return
-    }
-
-    try {
-      if (!cookieraw) {
-        throw new Error('Usuário não autenticado.')
-      }
-
-      const decoded = decodeURIComponent(cookieraw)
-      const parsed = JSON.parse(decoded)
-      const userId = parsed.user_id
-
-      const res = await fetch('https://eeriicthdev.pythonanywhere.com/posts/posts/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Token ${token}`,
-        },
-        body: JSON.stringify({
-          titulo: title,
-          conteudo: content,
-          categoria: categoriaSelecionada,
-          autor: userId,
-        }),
-      })
+      )
 
       if (!res.ok) {
-        throw new Error('Erro ao enviar post')
+        throw new Error('Erro ao curtir')
       }
 
-      setMensagem('Postagem enviada com sucesso!')
-      setTitle('')
-      setContent('')
-      setCategoriaSelecionada(null)
-    } catch (error) {
-      console.error(error)
-      setMensagem('Erro ao enviar postagem.')
+      // optimistic UI (experiência top)
+      setLiked(!liked)
+      setLikesCount(prev =>
+        liked ? prev - 1 : prev + 1
+      )
+
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen p-4 text-white'>
-      <form
-        onSubmit={handleSubmit}
-        className='bg-white/10 backdrop-blur-md rounded-xl border border-white/20 shadow-xl p-6 w-full max-w-md space-y-4'
-      >
-        <h1 className='text-2xl font-bold text-center mb-4'>Nova Postagem</h1>
+    <div className="bg-white/10 border border-white/20 rounded-xl p-4 space-y-2">
+      <h2 className="text-lg font-bold">{post.titulo}</h2>
+      <p className="text-sm text-zinc-300">{post.conteudo}</p>
 
-        <div className='flex flex-col space-y-1'>
-          <label htmlFor="title" className='text-sm'>Título</label>
-          <input
-            id="title"
-            className='p-2 rounded bg-white/20 border border-white/30 text-white focus:outline-none'
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-          />
-        </div>
-
-        <div className='flex flex-col space-y-1'>
-          <label htmlFor="content" className='text-sm'>Conteúdo</label>
-          <textarea
-            id="content"
-            rows={4}
-            className='p-2 rounded bg-white/20 border border-white/30 text-white focus:outline-none resize-none'
-            value={content}
-            onChange={e => setContent(e.target.value)}
-          />
-        </div>
-
-        <div className='flex flex-col space-y-1'>
-          <label htmlFor="categoria" className='text-sm'>Categoria</label>
-          <select
-            id="categoria"
-            className='p-2 rounded bg-white/20 border border-white/30 text-zinc-400 focus:outline-none'
-            value={categoriaSelecionada || ''}
-            onChange={e => setCategoriaSelecionada(Number(e.target.value))}
-          >
-            <option value="">Selecione</option>
-            {categorias.map(cat => (
-              <option key={cat.id} value={cat.id}>{cat.nome}</option>
-            ))}
-          </select>
-        </div>
-
-        {mensagem && (
-          <p className='text-center text-sm mt-2 text-yellow-300'>{mensagem}</p>
-        )}
+      <div className="flex items-center justify-between mt-3">
+        <span className="text-sm text-zinc-400">
+          @{post.autor_username}
+        </span>
 
         <button
-          type="submit"
-          className='w-full bg-indigo-600 hover:bg-indigo-700 transition rounded p-2 mt-4 font-medium'
+          onClick={handleLike}
+          disabled={loading}
+          className={`flex items-center gap-1 text-sm transition
+            ${liked ? 'text-pink-500' : 'text-zinc-400'}
+          `}
         >
-          Enviar Postagem
+          {liked ? '❤️' : '🤍'} {likesCount}
         </button>
-        <Link href="/feed" className='text-center text-sm mt-2 text-yellow-300'>Voltar</Link>
-      </form>
+      </div>
     </div>
   )
 }
